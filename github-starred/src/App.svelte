@@ -1,17 +1,22 @@
 <script>
-  import { onMount } from "svelte";
+  import { onMount, afterUpdate } from "svelte";
   import Repo from "./Repo.svelte";
   import { createRepo, getLastWeekDate } from "./utils";
 
   let repos = [];
-  let newBatch = [];
+  let new_batch = [];
   let loading = false;
   let error = null;
   let page = 1;
+  let should_scroll = false;
+
+  afterUpdate(() => {    
+    should_scroll && window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
+  });
 
   const clearRepos = async () => {
     repos = [];
-    newBatch = [];
+    new_batch = [];
     page = 1;
     await moreRepos();
   };
@@ -26,14 +31,15 @@
       error = `Error occured while loading: ${response.status} - ${errObj.message}`;
     } else {
       const result_object = await response.json();
-      newBatch = result_object.items.map((item) => createRepo(item));
+      new_batch = result_object.items.map((item) => createRepo(item));
       page += 1;
+      should_scroll = true;
       error = null;
     }
-    loading = false;
+    loading = false;    
   };
 
-  $: repos = [...repos, ...newBatch];
+  $: repos = [...repos, ...new_batch];
 
   onMount(moreRepos);
 </script>
@@ -44,19 +50,23 @@
   <p>
     <a href="#reload" on:click|preventDefault={clearRepos}>start from scratch</a
     >
+  </p>  
+  <div class="repos">
+    {#each repos as repo (repo.id)}
+      <Repo {...repo} />
+    {/each}
+  </div>
+  <p>
+    {#if loading}
+      <span>loading...</span>
+    {:else if error}
+      <span class="error">{error}</span>
+    {:else if repos.length === 0}
+      <span>no more results...</span>
+    {:else}
+      <a href="#loadmore" on:click|preventDefault={moreRepos}>load more</a>
+    {/if}
   </p>
-  {#if loading}
-    <div class="loading">loading...</div>
-  {:else if error}
-    <div class="error">{error}</div>
-  {:else}
-    <div class="repos">
-      {#each repos as repo (repo.id)}
-        <Repo {...repo} />
-      {/each}
-    </div>
-    <p><a href="#loadmore" on:click|preventDefault={moreRepos}>load more</a></p>
-  {/if}
 </main>
 
 <style>
@@ -85,6 +95,7 @@
   .repos {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: space-evenly;  
+
   }
 </style>
