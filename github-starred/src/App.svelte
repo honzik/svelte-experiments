@@ -11,8 +11,7 @@
     should_scroll && window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
   });
   
-  repoStore.subscribe(value => {
-    console.log(value);
+  repoStore.subscribe(value => {    
     result = value;
   })
 
