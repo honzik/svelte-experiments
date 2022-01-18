@@ -8,7 +8,7 @@
 
 <div class="repo">
   <h3><code>{name}</code></h3>
-  <div class="props">
+  <div class="props" data-key={id}>
     <span class="link"><a href={url}>GitHub link</a></span>
     <span class="stars">{stars}</span>
     <span class="fav">Fav</span>
