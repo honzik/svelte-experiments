@@ -1,7 +1,6 @@
 <script>
   import { onMount, afterUpdate } from "svelte";
   import Repo from "./Repo.svelte";
-  import { getLastWeekDate } from "./utils";
   import repoStore from "./repoStore";
 
   let should_scroll = false;
