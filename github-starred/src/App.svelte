@@ -1,70 +1,45 @@
 <script>
   import { onMount, afterUpdate } from "svelte";
   import Repo from "./Repo.svelte";
-  import { createRepo, getLastWeekDate } from "./utils";
+  import { getLastWeekDate } from "./utils";
+  import repoStore from "./repoStore";
 
-  let repos = [];
-  let new_batch = [];
-  let loading = false;
-  let error = null;
-  let page = 1;
   let should_scroll = false;
+  let result = {};
 
   afterUpdate(() => {    
     should_scroll && window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
   });
+  
+  repoStore.subscribe(value => {
+    console.log(value);
+    result = value;
+  })
 
-  const clearRepos = async () => {
-    repos = [];
-    new_batch = [];
-    page = 1;
-    await moreRepos();
-  };
-
-  const moreRepos = async () => {
-    loading = true;
-    const response = await fetch(
-      `https://api.github.com/search/repositories?q=created:>=${getLastWeekDate()}&sort=stars&order=desc&per_page=9&page=${page}`
-    );
-    if (!response.ok) {
-      const errObj = await response.json();
-      error = `Error occured while loading: ${response.status} - ${errObj.message}`;
-    } else {
-      const result_object = await response.json();
-      new_batch = result_object.items.map((item) => createRepo(item));
-      page += 1;
-      should_scroll = true;
-      error = null;
-    }
-    loading = false;    
-  };
-
-  $: repos = [...repos, ...new_batch];
-
-  onMount(moreRepos);
+  onMount(repoStore.load_more);
 </script>
 
 <main>
   <h1>Trending Repos in GitHub</h1>
   <h2>Last week statistics</h2>
   <p>
-    <a href="#reload" on:click|preventDefault={clearRepos}>start from scratch</a
+    <a href="#reload" on:click|preventDefault={repoStore.reset}>start from scratch</a
     >
   </p>  
   <div class="repos">
-    {#each repos as repo (repo.id)}
+    {#each result.repos as repo (repo.id)}
       <Repo {...repo} />
     {/each}
   </div>
   <p>
-    {#if loading}
+    {#if result.loading}
       <span>loading...</span>
-    {:else if error}
-      <span class="error">{error}</span>
-    {:else if repos.length === 0}
+    {:else if result.error}
+      <span class="error">{result.error}</span>
+    {:else if result.repos.length === 0}
       <span>no more results...</span>
     {:else}
-      <a href="#loadmore" on:click|preventDefault={moreRepos}>load more</a>
+      <a href="#loadmore" on:click|preventDefault={repoStore.load_more}>load more</a>
     {/if}
   </p>
 </main>
