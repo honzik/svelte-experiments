@@ -1,9 +1,9 @@
 <script>
-  export let name;
-  export let url;
-  export let id;
-  export let description;
-  export let stars;
+  export let name = "Some repository name";
+  export let url = "https://github.com/honzik/svelte-experiments";
+  export let id = "111";
+  export let description = "Some repo description. Some repo description. Some repo description. Some repo description. ";
+  export let stars = 154;
 </script>
 
 <div class="repo">
