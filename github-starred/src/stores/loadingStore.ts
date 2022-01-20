@@ -1,7 +1,15 @@
 import { writable, get } from "svelte/store";
-import { createRepo, getLastWeekDate } from "../code/utils";
+import { createRepo, getLastWeekDate, TRepo } from "../code/utils";
 
-const default_props = {
+export type TLoadingProps = {
+  repos: TRepo[],
+  loading: boolean,
+  error: null | string,
+  page: number,
+  should_scroll: boolean
+};
+
+const default_props:TLoadingProps = {
   repos: [],
   loading: false,
   error: null,

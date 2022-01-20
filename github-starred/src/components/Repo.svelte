@@ -1,4 +1,4 @@
-<script>
+<script type="ts">
   import favStore from "../stores/favStore";
 
   export let name = "Some repository name";
@@ -9,7 +9,7 @@
   export let stars = 154;
   export let fav = false;
 
-  const change_fav = (state) => {
+  const change_fav = (state:boolean) => {
     favStore.apply_fav(id, state);
   };
 </script>

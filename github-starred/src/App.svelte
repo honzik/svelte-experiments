@@ -1,16 +1,15 @@
-<script>
+<script lang="ts">
   import { onMount, afterUpdate } from "svelte";
   import Repo from "./components/Repo.svelte";
   import Filter from "./components/Filter.svelte";
 
-  import loadingStore from "./stores/loadingStore";
+  import loadingStore, { TLoadingProps } from "./stores/loadingStore";
   import repoStore from "./stores/repoStore";
-  import favStore from "./stores/favStore";
   import filterStore from "./stores/filterStore";
 
   const filters = [{ key: "fav", title: "Favourites only" }];
 
-  let load_result = {};
+  let load_result:TLoadingProps;
   let repos = [];
 
   afterUpdate(() => {

@@ -1,10 +1,10 @@
-<script>
+<script lang="ts">
   import filterStore from "../stores/filterStore";
 
   export let key = "someKey";
   export let title = "Filter Title";
 
-  const toggle_filter = (filter_key) => {
+  const toggle_filter = (filter_key:string) => {
     filterStore.toggle_filter(filter_key);
   };
 </script>
