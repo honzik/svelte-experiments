@@ -1,4 +1,4 @@
-import { writable } from "svelte/store";
+import { writable, get } from "svelte/store";
 import { createRepo, getLastWeekDate } from "./utils";
 
 const default_props = {
@@ -22,20 +22,22 @@ const getData = async (page) => {
 };
 
 const repoStore = (() => { 
-  const { subscribe, set, update } = writable(default_props);  
+  const store = writable(default_props);  
+  const { subscribe, set, update } = store;
   
   const load_more = async () => {
-    let current_state;
-    update(state => {
-      current_state = state;
+    const state = get(store);
+    const { page, repos } = state;
+
+    update(state => {      
       return {...state, loading: true}
     });    
     try {
-      const new_data = await getData(current_state.page);       
+      const new_data = await getData(page);       
       set({        
-        repos: [...current_state.repos, ...new_data],
+        repos: [...repos, ...new_data],
         loading: false,
-        page: current_state.page + 1,
+        page: page + 1,
         error: null
       });
     } catch (error) {
