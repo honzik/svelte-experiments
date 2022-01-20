@@ -1,5 +1,5 @@
 <script>
-  import filterStore from "./filterStore";
+  import filterStore from "../stores/filterStore";
 
   export let key = "someKey";
   export let title = "Filter Title";
@@ -19,13 +19,12 @@
 </a>
 
 <style>
-    a.filter {
-        text-decoration: none;
-    }
-    a.filter.selected {
-        color: black;
-        font-weight: bold;    
-        text-decoration: underline;
-    }
-
+  a.filter {
+    text-decoration: none;
+  }
+  a.filter.selected {
+    color: black;
+    font-weight: bold;
+    text-decoration: underline;
+  }
 </style>

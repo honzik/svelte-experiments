@@ -1,5 +1,5 @@
 <script>
-  import favStore from "./favStore";
+  import favStore from "../stores/favStore";
 
   export let name = "Some repository name";
   export let url = "https://github.com/honzik/svelte-experiments";
@@ -12,7 +12,6 @@
   const change_fav = (state) => {
     favStore.apply_fav(id, state);
   };
-
 </script>
 
 <div class="repo">

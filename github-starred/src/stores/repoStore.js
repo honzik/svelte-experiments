@@ -12,7 +12,7 @@ const filtered_repos_with_favs = (repos, favs, filters) => {
       return repo.fav;
     }
     return true;
-  });  
+  });
 };
 
 const repoStore = derived(

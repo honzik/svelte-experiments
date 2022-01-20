@@ -1,16 +1,14 @@
 <script>
   import { onMount, afterUpdate } from "svelte";
-  import Repo from "./Repo.svelte";
-  import Filter from "./Filter.svelte";
+  import Repo from "./components/Repo.svelte";
+  import Filter from "./components/Filter.svelte";
 
-  import loadingStore from "./loadingStore";
-  import repoStore from "./repoStore";  
-  import favStore from "./favStore";
-  import filterStore from "./filterStore";
+  import loadingStore from "./stores/loadingStore";
+  import repoStore from "./stores/repoStore";
+  import favStore from "./stores/favStore";
+  import filterStore from "./stores/filterStore";
 
-  const filters = [
-    { key: "fav", title: "Favourites only" },
-  ];
+  const filters = [{ key: "fav", title: "Favourites only" }];
 
   let load_result = {};
   let repos = [];
@@ -30,15 +28,14 @@
     load_result = value;
   });
 
-  repoStore.subscribe((value) => {    
+  repoStore.subscribe((value) => {
     repos = value;
   });
 
   const reset_action = () => {
     filterStore.remove_filters();
-    loadingStore.reset();    
-  }
-
+    loadingStore.reset();
+  };
 
   onMount(loadingStore.load_more);
 </script>

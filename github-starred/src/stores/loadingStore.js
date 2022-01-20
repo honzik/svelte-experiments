@@ -1,5 +1,5 @@
 import { writable, get } from "svelte/store";
-import { createRepo, getLastWeekDate } from "./utils";
+import { createRepo, getLastWeekDate } from "../code/utils";
 
 const default_props = {
   repos: [],

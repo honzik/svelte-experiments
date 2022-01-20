@@ -1,8 +1,13 @@
 import { writable, get } from "svelte/store";
 
 const stored_favs = localStorage.githubFavs;
+const favs_array = Array.isArray(stored_favs)
+  ? stored_favs
+  : stored_favs
+  ? [stored_favs]
+  : [];
 
-const favStore = writable(stored_favs || []);
+const favStore = writable(favs_array);
 
 favStore.subscribe((value) => {
   localStorage.githubFavs = value;
