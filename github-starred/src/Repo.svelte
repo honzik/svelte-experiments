@@ -12,6 +12,7 @@
   const change_fav = (state) => {
     favStore.apply_fav(id, state);
   };
+
 </script>
 
 <div class="repo">

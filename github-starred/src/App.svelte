@@ -1,8 +1,16 @@
 <script>
   import { onMount, afterUpdate } from "svelte";
   import Repo from "./Repo.svelte";
+  import Filter from "./Filter.svelte";
+
   import loadingStore from "./loadingStore";
-  import repoStore from "./repoStore";
+  import repoStore from "./repoStore";  
+  import favStore from "./favStore";
+  import filterStore from "./filterStore";
+
+  const filters = [
+    { key: "fav", title: "Favourites only" },
+  ];
 
   let load_result = {};
   let repos = [];
@@ -22,10 +30,15 @@
     load_result = value;
   });
 
-  repoStore.subscribe((value) => {
-    console.log(repos);
+  repoStore.subscribe((value) => {    
     repos = value;
   });
+
+  const reset_action = () => {
+    filterStore.remove_filters();
+    loadingStore.reset();    
+  }
+
 
   onMount(loadingStore.load_more);
 </script>
@@ -33,11 +46,14 @@
 <main>
   <h1>Trending Repos in GitHub</h1>
   <h2>Last week statistics</h2>
-  <p>
-    <a href="#reload" on:click|preventDefault={loadingStore.reset}
+  <div class="links">
+    <a href="#reload" on:click|preventDefault={reset_action}
       >start from scratch</a
     >
-  </p>
+    {#each filters as filter (filter.key)}
+      <Filter {...filter} />
+    {/each}
+  </div>
   <div class="repos">
     {#each repos as repo (repo.id)}
       <Repo {...repo} />
@@ -72,7 +88,13 @@
     font-size: 4em;
     font-weight: 100;
   }
-
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    max-width: 400px;
+    margin: 0 auto;
+  }
   @media (min-width: 640px) {
     main {
       max-width: none;
