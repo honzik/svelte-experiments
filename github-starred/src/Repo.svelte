@@ -1,9 +1,17 @@
 <script>
+  import favStore from "./favStore";
+
   export let name = "Some repository name";
   export let url = "https://github.com/honzik/svelte-experiments";
   export let id = "111";
-  export let description = "Some repo description. Some repo description. Some repo description. Some repo description. ";
+  export let description =
+    "Some repo description. Some repo description. Some repo description. Some repo description. ";
   export let stars = 154;
+  export let fav = false;
+
+  const change_fav = (state) => {
+    favStore.apply_fav(id, state);
+  };
 </script>
 
 <div class="repo">
@@ -11,7 +19,15 @@
   <div class="props" data-key={id}>
     <span class="link"><a href={url}>GitHub link</a></span>
     <span class="stars">{stars}</span>
-    <span class="fav">Fav</span>
+    <span class="fav">
+      {#if fav}
+        <a href="#unfav" on:click|preventDefault={() => change_fav(false)}
+          >UnFav</a
+        >
+      {:else}
+        <a href="#fav" on:click|preventDefault={() => change_fav(true)}>Fav</a>
+      {/if}
+    </span>
   </div>
   <div class="desc">
     {description ?? "---"}

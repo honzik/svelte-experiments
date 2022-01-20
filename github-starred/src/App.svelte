@@ -1,43 +1,59 @@
 <script>
   import { onMount, afterUpdate } from "svelte";
   import Repo from "./Repo.svelte";
+  import loadingStore from "./loadingStore";
   import repoStore from "./repoStore";
 
-  let should_scroll = false;
-  let result = {};
+  let load_result = {};
+  let repos = [];
 
-  afterUpdate(() => {    
-    should_scroll && window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
+  afterUpdate(() => {
+    if (load_result && load_result.should_scroll) {
+      window.scrollTo({
+        left: 0,
+        top: document.body.scrollHeight,
+        behavior: "smooth",
+      });
+      loadingStore.clear_scroll();
+    }
   });
-  
-  repoStore.subscribe(value => {    
-    result = value;
-  })
 
-  onMount(repoStore.load_more);
+  loadingStore.subscribe((value) => {
+    load_result = value;
+  });
+
+  repoStore.subscribe((value) => {
+    console.log(repos);
+    repos = value;
+  });
+
+  onMount(loadingStore.load_more);
 </script>
 
 <main>
   <h1>Trending Repos in GitHub</h1>
   <h2>Last week statistics</h2>
   <p>
-    <a href="#reload" on:click|preventDefault={repoStore.reset}>start from scratch</a
+    <a href="#reload" on:click|preventDefault={loadingStore.reset}
+      >start from scratch</a
     >
-  </p>  
+  </p>
   <div class="repos">
-    {#each result.repos as repo (repo.id)}
+    {#each repos as repo (repo.id)}
       <Repo {...repo} />
     {/each}
   </div>
   <p>
-    {#if result.loading}
+    {#if load_result.loading}
       <span>loading...</span>
-    {:else if result.error}
-      <span class="error">{result.error}</span>
-    {:else if result.repos.length === 0}
+    {:else if load_result.error}
+      <span class="error">{load_result.error}</span>
+    {:else if load_result.repos.length === 0}
       <span>no more results...</span>
     {:else}
-      <a href="#loadmore" on:click|preventDefault={repoStore.load_more}>load more</a>
+      <a href="#loadmore" on:click|preventDefault={loadingStore.load_more}
+        >load more</a
+      >
     {/if}
   </p>
 </main>
@@ -68,7 +84,6 @@
   .repos {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;  
-
+    justify-content: space-evenly;
   }
 </style>
