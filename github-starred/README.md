@@ -1,10 +1,13 @@
-*Psst — looking for a more complete solution? Check out [SvelteKit](https://kit.svelte.dev), the official framework for building web applications of all sizes, with a beautiful development experience and flexible filesystem-based routing.*
+# GitHub Last Week Repos
 
-*Looking for a shareable component template instead? You can [use SvelteKit for that as well](https://kit.svelte.dev/docs#packaging) or the older [sveltejs/component-template](https://github.com/sveltejs/component-template)*
+- this is basically following a task we give to new coders, which is aimed at developing a React application. It should load last week's created repositories in Github and show their basic information based on public GitHub API.
+- it also allows you to mark favourite items, using local storage, and can filter by favourite only.
+- so I just went around and modified this app for Svelte.
+- Using TypeScript, employing the concept of custom & derived stores.
 
+
+_following is standard Svelte - readme._
 ---
-
-# svelte app
 
 This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
 
