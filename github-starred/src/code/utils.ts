@@ -14,6 +14,8 @@ export type TRepo = {
   description: string;
 };
 
+export type TRepoFavs = TRepo & { fav: boolean };
+
 export const createRepo = ({
   html_url: url,
   name,

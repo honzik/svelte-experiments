@@ -1,9 +1,10 @@
 import { derived } from "svelte/store";
 import loadingStore from "./loadingStore";
 import favStore from "./favStore";
-import filterStore from "./filterStore";
+import filterStore, { TFilters } from "./filterStore";
+import type { TRepo, TRepoFavs } from "../code/utils";
 
-const filtered_repos_with_favs = (repos, favs, filters) => {
+const filtered_repos_with_favs = (repos: TRepo[], favs: number[], filters: TFilters):TRepoFavs[] => {
   const faved_repos = repos.map((repo) => {
     return { ...repo, fav: favs.includes(repo.id) };
   });
