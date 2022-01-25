@@ -17,7 +17,7 @@ const default_props:TLoadingProps = {
   should_scroll: false,
 };
 
-const getData = async (page) => {
+const getData = async (page: number):Promise<TRepo[]> => {
   const response = await fetch(
     `https://api.github.com/search/repositories?q=created:>=${getLastWeekDate()}&sort=stars&order=desc&per_page=9&page=${page}`
   );
