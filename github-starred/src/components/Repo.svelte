@@ -1,3 +1,5 @@
+<svelte:options immutable />
+
 <script type="ts">
   import favStore from "../stores/favStore";
 

@@ -9,7 +9,7 @@ export const getLastWeekDate = (): string => {
 export type TRepo = {
   url: string;
   name: string;
-  id: number;
+  id: string;
   stars: number;
   description: string;
 };
@@ -23,5 +23,5 @@ export const createRepo = ({
   stargazers_count: stars,
   description,
 }):TRepo => {
-  return { url, name, id, stars, description };
+  return { url, name, id:id+'', stars, description };
 };
