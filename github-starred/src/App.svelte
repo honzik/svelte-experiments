@@ -9,7 +9,7 @@
 
   const filters = [{ key: "fav", title: "Favourites only" }];
 
-  let load_result:TLoadingProps;
+  let load_result: TLoadingProps;
   let repos = [];
 
   afterUpdate(() => {

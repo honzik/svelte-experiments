@@ -22,6 +22,6 @@ export const createRepo = ({
   id,
   stargazers_count: stars,
   description,
-}):TRepo => {
-  return { url, name, id:id+'', stars, description };
+}): TRepo => {
+  return { url, name, id: id + "", stars, description };
 };

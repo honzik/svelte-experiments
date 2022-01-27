@@ -11,7 +11,7 @@
   export let stars = 154;
   export let fav = false;
 
-  const change_fav = (state:boolean) => {
+  const change_fav = (state: boolean) => {
     favStore.apply_fav(id, state);
   };
 </script>
