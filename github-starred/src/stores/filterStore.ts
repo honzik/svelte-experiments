@@ -1,4 +1,4 @@
-import { writable, get } from "svelte/store";
+import { writable } from "svelte/store";
 
 export type TFilters = { [key:string]: boolean };
 
@@ -8,7 +8,7 @@ const default_filters:TFilters = {
 
 const filterStore = (() => {
   const store = writable(default_filters);
-  const { subscribe, set, update } = store;
+  const { subscribe } = store;
 
   const toggle_filter = (filter_name:string) => {
     store.update((filters) => {

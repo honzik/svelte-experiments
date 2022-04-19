@@ -1,7 +1,7 @@
-import { formatDate, toDate } from "date-utils-2020";
+import { formatDate } from "date-utils-2020";
 
 export const getLastWeekDate = (): string => {
-  let d = new Date();
+  const d = new Date();
   d.setDate(d.getDate() - 7);
   return formatDate(d, "yyyy-MM-dd");
 };
